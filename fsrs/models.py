@@ -34,7 +34,7 @@ class ReviewLog:
 
 
 class Card:
-    name: str
+    card_id: str
     due: datetime
     stability: float
     difficulty: float
@@ -45,23 +45,30 @@ class Card:
     state: State
     last_review: datetime
 
-    def __init__(self,name) -> None:
-        self.name = name
+    
+    
+    def __init__(self,name,stability,difficulty,reps,state,last_review) -> None:
+        self.card_id = name
         self.due = datetime.utcnow()
-        self.stability = 0
-        self.difficulty = 0
+        self.stability = stability
+        self.difficulty = difficulty
         self.elapsed_days = 0
         self.scheduled_days = 0
-        self.reps = 0
-        self.lapses = 0
-        self.state = State.New
+        self.reps = reps
+        self.lapses =  0
+        self.state = state
+        self.last_review = last_review
+    
 
+    
+        
     
     def get_retrievability(self, now: datetime) -> Optional[float]:
         DECAY = -0.5
         FACTOR = 0.9 ** (1 / DECAY) - 1
 
         if self.state == State.Review:
+            print(self.last_review)
             elapsed_days = max(0, (now - self.last_review).days)
             return (1 + FACTOR * elapsed_days / self.stability) ** DECAY
         else:
