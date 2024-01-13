@@ -95,7 +95,7 @@ def schedule():
     json_data = serialize_to_json(scheduling_cards, ivl)
     filtered_json_data = get_data_for_rating(json_data, rating)
     filtered_json_data = json.dumps(filtered_json_data)
-    return jsonify(filtered_json_data)
+    return filtered_json_data
 
 if __name__ == '__main__':
     app.run(debug=True)
