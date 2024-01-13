@@ -1,13 +1,7 @@
-from flask import Flask, request, jsonify
 from fsrs import *
 from datetime import datetime
 import json
-
-app = Flask(__name__)
-
-@app.route("/")
-def hello_world():
-    return "Hello, World!"
+from flask import Flask, request, jsonify
 
 def get_data_for_rating(json_data, target_rating):
     # Load JSON data
@@ -35,7 +29,24 @@ def get_data_for_rating(json_data, target_rating):
         print(f"No information available for rating {target_rating}")
         return None, None
 
+def print_scheduling_cards(scheduling_cards, target_rating):
+    rating_mapping = {
+        Rating.Again: "Again",
+        Rating.Hard: "Hard",
+        Rating.Good: "Good",
+        Rating.Easy: "Easy",
+    }
 
+    target_rating_str = rating_mapping.get(target_rating, "Unknown Rating")
+
+    if target_rating in scheduling_cards:
+        print(f"{target_rating_str}.card:", scheduling_cards[target_rating].card.__dict__)
+        print()
+        print(f"{target_rating_str}.review_log:", scheduling_cards[target_rating].review_log.__dict__)
+    else:
+        print(f"No information available for {target_rating_str}")
+
+    print()
 def serialize_scheduling_cards(scheduling_cards):
     serialized_cards = {}
     for rating, scheduling_info in scheduling_cards.items():
@@ -60,10 +71,12 @@ def serialize_to_json(scheduling_cards, ivl_history):
     }
     return json.dumps(data)
 
-@app.route('/schedule', methods=['POST'])
-def schedule():
-    
-    data = request.get_json()
+
+
+def test_2():
+    with open('test.json', 'r') as file:
+        data = json.load(file)
+    # Truy cập và lấy dữ liệu từ dict
     log_card_data = data.get('log_card', {})
     log_card_id = log_card_data.get('id', '')
     stability = float(log_card_data.get('stability', 0))
@@ -97,7 +110,10 @@ def schedule():
     json_data = serialize_to_json(scheduling_cards, ivl)
     filtered_json_data = get_data_for_rating(json_data, rating)
     filtered_json_data = json.dumps(filtered_json_data)
-    return jsonify(filtered_json_data)
+    print(filtered_json_data)
+    filepath = 'res.json'
+    with open(filepath, 'w') as file:
+        file.write(filtered_json_data)
 
-if __name__ == '__main__':
-    app.run(debug=True)
+test_2()
+

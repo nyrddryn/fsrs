@@ -5,10 +5,10 @@
           "difficulty": "0", 
           "reps": "0", 
           "state": "0", 
-          "last_review": "datetime.datetime(2023,12,31,08,08,08,123123)"
+          "last_review": "2023-12-30 08:08:08.123123"
         },
     "rating_now":{
         "rating": "Easy",
-        "rating_time": "datetime.datetime(2024,01,02,08,08,08,123123)"
+        "rating_time": "2024-01-02 08:08:08.123123"
     }    
 }    
