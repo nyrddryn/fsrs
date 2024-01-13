@@ -6,12 +6,11 @@ from flask import Flask, request, jsonify
 def get_data_for_rating(json_data, target_rating):
     # Load JSON data
     data = json.loads(json_data)
-
     # Get scheduling_cards dictionary
     scheduling_cards = data.get('scheduling_cards', {})
-
+    print(int(target_rating))
     # Get data for the specified rating
-    rating_data = scheduling_cards.get(str(target_rating), None)
+    rating_data = scheduling_cards.get(str(int(target_rating)), None)
 
     if rating_data:
         card_info = rating_data.get('card', {})
@@ -24,10 +23,10 @@ def get_data_for_rating(json_data, target_rating):
         print(review_log_info)
 
         # Alternatively, you can return the extracted data
-        return card_info, review_log_info
+        return card_info
     else:
         print(f"No information available for rating {target_rating}")
-        return None, None
+        return None
 
 def print_scheduling_cards(scheduling_cards, target_rating):
     rating_mapping = {

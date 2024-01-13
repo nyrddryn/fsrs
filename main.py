@@ -17,7 +17,7 @@ def get_data_for_rating(json_data, target_rating):
     scheduling_cards = data.get('scheduling_cards', {})
 
     # Get data for the specified rating
-    rating_data = scheduling_cards.get(str(target_rating), None)
+    rating_data = scheduling_cards.get(str(int(target_rating)), None)
 
     if rating_data:
         card_info = rating_data.get('card', {})
@@ -30,10 +30,10 @@ def get_data_for_rating(json_data, target_rating):
         print(review_log_info)
 
         # Alternatively, you can return the extracted data
-        return card_info, review_log_info
+        return card_info
     else:
         print(f"No information available for rating {target_rating}")
-        return None, None
+        return None
 
 
 def serialize_scheduling_cards(scheduling_cards):
@@ -90,9 +90,7 @@ def schedule():
     f = FSRS()
     now = rating_time
     scheduling_cards = f.repeat(card, now)
-
     card = scheduling_cards[rating].card
-    
     ivl = card.scheduled_days
     json_data = serialize_to_json(scheduling_cards, ivl)
     filtered_json_data = get_data_for_rating(json_data, rating)
