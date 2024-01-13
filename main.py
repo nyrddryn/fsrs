@@ -1,9 +1,11 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS  # Import CORS from flask_cors
 from fsrs import *
 from datetime import datetime
 import json
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/")
 def hello_world():
@@ -98,4 +100,4 @@ def schedule():
     return filtered_json_data
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5001)
